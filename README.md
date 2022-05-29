@@ -1,6 +1,5 @@
 # DockerInfrastructure
 
-____
 
 ## Стек технологий
 В качестве базы данных выбрана [MySQL](https://www.mysql.com). Сервер с отправкой и получением сообщений реализован на [Asp .NET 6.0](https://github.com/d1mak3/DockerInfrastructure/tree/master/BrokerServer) и играет роль *producer* в брокере. В качестве брокера сообщений был выбран [RabbitMQ](https://www.rabbitmq.com). Роль *consumer* исполняет [консольное приложение .NET 6.0](https://github.com/d1mak3/DockerInfrastructure/tree/master/MessagesServer). Для кэширования запросов к базе данных выбран [redis]("https://redis.io").
