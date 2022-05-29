@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "jNYZHiVuZ5hgq91lWC1RzS5D9Etla+PPdK1FvK5vSNpSn1eHZmTwWmtibQCTM14fmUAtiy5ScwVLZyqnuBwDbQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\NITRO\\source\\repos\\DockerInfrastructure\\BrokerServer\\BrokerServer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\NITRO\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\NITRO\\.nuget\\packages\\rabbitmq.client\\6.3.0\\rabbitmq.client.6.3.0.nupkg.sha512",
+    "C:\\Users\\NITRO\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\NITRO\\.nuget\\packages\\system.threading.channels\\4.7.1\\system.threading.channels.4.7.1.nupkg.sha512"
+  ],
+  "logs": []
+}

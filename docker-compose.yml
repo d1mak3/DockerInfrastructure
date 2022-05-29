@@ -1,32 +1,52 @@
 version: "3.9"
 
-services:
-  
-  server:
-
-    build: .
+services:  
+  messages_server:
+    build: ./MessagesServer
     depends_on:
-      - "database"
+      - "database"  
+      - "broker_rabbit"    
+    ports:
+      - "8080:88"
+    environment:
+      DB_CONNECTION_STRING: "Server=host.docker.internal;Port=3306;Database=messenger_database;Uid=root;Pwd=no_piko;"
+      RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
+      QUEUE_NAME: "messages_queries"
+      RETRIES_COUNT: "5"
+
+  broker_server:
+    build: ./BrokerServer
+    depends_on:
+      - "broker_rabbit"
     ports:
       - "8000:80"
     environment:
-      DB_CONNECTION_STRING: "Server=host.docker.internal;Port=3306;Database=messenger_database;Uid=root;Pwd=no_piko;"
-    
-  database:
+      RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
+      QUEUE_NAME: "messages_queries"
 
+  database:
     image: mysql:8.0.29
     restart: always    
     ports:
       - "3306:3306"
     volumes:
-      - ./data:/var/lib/mysql
-      - ./SqlStuff1/:/docker-entrypoint-initdb.d
+      - ./SQLStuff/data:/var/lib/mysql
+      - ./SQLStuff/entrypoint/:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: no_piko
       MYSQL_DATABASE: messenger_database
       MYSQL_USER: boku
       MYSQL_PASSWORD: no_piko
+
+  broker_rabbit:
+    image: rabbitmq:3-management-alpine    
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ./RabbitMQ/data/:/var/lib/rabbitmq/
+        - ./RabbitMQ/log/:/var/log/rabbitmq
 
 volumes:
   data:
