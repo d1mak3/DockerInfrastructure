@@ -13,3 +13,5 @@ C:\Users\NITRO\source\repos\DockerInfrastructure\Client\obj\Debug\net6.0\refint\
 C:\Users\NITRO\source\repos\DockerInfrastructure\Client\obj\Debug\net6.0\Client.pdb
 C:\Users\NITRO\source\repos\DockerInfrastructure\Client\obj\Debug\net6.0\Client.genruntimeconfig.cache
 C:\Users\NITRO\source\repos\DockerInfrastructure\Client\obj\Debug\net6.0\ref\Client.dll
+C:\Users\NITRO\source\repos\DockerInfrastructure\Client\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\NITRO\source\repos\DockerInfrastructure\Client\obj\Debug\net6.0\Client.csproj.CopyComplete
