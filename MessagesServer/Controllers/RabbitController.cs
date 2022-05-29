@@ -3,6 +3,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using MessagesServer.Interfaces;
 
 namespace MessagesServer.Controllers
 {
@@ -11,13 +12,15 @@ namespace MessagesServer.Controllers
         private readonly string URI = Environment.GetEnvironmentVariable("RABBIT_URI") ?? "amqp://guest:guest@localhost:5672";
         private readonly string QUEUE_NAME = Environment.GetEnvironmentVariable("QUEUE_NAME") ?? "messages_queries";
 
-        private IConnection _connection;
-        private IModel _channel;
-        private IDatabaseController _databaseController;
+        private readonly IConnection _connection;
+        private readonly IModel _channel;
+        private readonly IDatabaseController _databaseController;
+        private readonly ICacheController _cacheController;
 
-        public RabbitController(IDatabaseController databaseController)
+        public RabbitController(IDatabaseController databaseController, ICacheController cacheController)
         {
             _databaseController = databaseController;
+            _cacheController = cacheController;
 
             var factory = new ConnectionFactory()
             {
@@ -59,12 +62,13 @@ namespace MessagesServer.Controllers
                         case "POST":
                             Models.Message messageToSave = JsonConvert.DeserializeObject<Models.Message>(jsonObject["Data"].ToString());
                             _databaseController.SaveMessage(messageToSave);
-                            
+                            _cacheController.SetValue("select_all", JsonConvert.SerializeObject(_databaseController.GetMessages()));
+
                             _channel.BasicAck(deliveryTag: data.DeliveryTag, multiple: false);
                             break;
                         
                         case "GET":
-                            List<Models.Message> messages = _databaseController.GetMessages();
+                            List<Models.Message> messages = JsonConvert.DeserializeObject<List<Models.Message>>(_cacheController.GetValueByKey("select_all"));
                             string serializedMessages = JsonConvert.SerializeObject(messages);
 
                             var replyProps = _channel.CreateBasicProperties();

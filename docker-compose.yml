@@ -13,6 +13,7 @@ services:
       RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
+      REDIS_CONNECTION_STRING: "host.docker.internal:6379"
 
   broker_server:
     build: ./BrokerServer
@@ -47,6 +48,17 @@ services:
     volumes:
         - ./RabbitMQ/data/:/var/lib/rabbitmq/
         - ./RabbitMQ/log/:/var/log/rabbitmq
+
+  redis:
+    image: "redis:alpine"    
+    ports:
+     - "6379:6379"
+    volumes:
+      - ./redis/redis-data:/var/lib/redis
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+
+    environment:
+     - REDIS_REPLICATION_MODE=master
 
 volumes:
   data:

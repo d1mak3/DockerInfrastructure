@@ -72,3 +72,8 @@ C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\obj\Debug\net6.0
 C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\obj\Debug\net6.0\MessagesServer.pdb
 C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\obj\Debug\net6.0\MessagesServer.genruntimeconfig.cache
 C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\obj\Debug\net6.0\ref\MessagesServer.dll
+C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\bin\Debug\net6.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\bin\Debug\net6.0\StackExchange.Redis.dll
+C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\bin\Debug\net6.0\System.Diagnostics.PerformanceCounter.dll
+C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\bin\Debug\net6.0\System.IO.Pipelines.dll
+C:\Users\NITRO\source\repos\DockerInfrastructure\MessagesServer\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll

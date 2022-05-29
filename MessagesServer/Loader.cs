@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿using MessagesServer.Controllers;
 
 namespace MessagesServer
 {
@@ -10,10 +10,13 @@ namespace MessagesServer
             {
                 try
                 {
-                    using (var databaseController = new Controllers.MySqlDatabaseController())
+                    using (var databaseController = new MySqlDatabaseController())
                     {
-                        Controllers.RabbitController rabbitController = new Controllers.RabbitController(databaseController);
-                        rabbitController.GetQueryFromTheQueue();
+                        using (var cacheController = new RedisController())
+                        {
+                            RabbitController rabbitController = new RabbitController(databaseController, cacheController);
+                            rabbitController.GetQueryFromTheQueue();
+                        }
                     }
                 }
                 catch (Exception ex)

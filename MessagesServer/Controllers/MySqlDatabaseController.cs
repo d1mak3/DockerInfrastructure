@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data.Common;
+using MessagesServer.Interfaces;
 
 namespace MessagesServer.Controllers
 {
