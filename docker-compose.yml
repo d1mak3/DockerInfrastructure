@@ -14,8 +14,6 @@ services:
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
-      IDENT_STRING_1: "server#1 in work"
-      IDENT_STRING_2: "server#1 done"
 
   messages_server_2:
     build: ./MessagesServer
@@ -30,8 +28,6 @@ services:
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
-      IDENT_STRING_1: "server#2 in work"
-      IDENT_STRING_2: "server#2 done"
 
   messages_server_3:
     build: ./MessagesServer
@@ -46,9 +42,7 @@ services:
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
-      IDENT_STRING_1: "server#3 in work"
-      IDENT_STRING_2: "server#3 done"
-
+  
   messages_server_4:
     build: ./MessagesServer
     depends_on:
@@ -62,8 +56,6 @@ services:
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
-      IDENT_STRING_1: "server#4 in work"
-      IDENT_STRING_2: "server#4 done"
 
   messages_server_5:
     build: ./MessagesServer
@@ -77,9 +69,7 @@ services:
       RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
-      REDIS_CONNECTION_STRING: "host.docker.internal:6379"
-      IDENT_STRING_1: "server#5 in work"
-      IDENT_STRING_2: "server#5 done"
+      REDIS_CONNECTION_STRING: "host.docker.internal:6379"      
 
   broker_server:
     build: ./BrokerServer

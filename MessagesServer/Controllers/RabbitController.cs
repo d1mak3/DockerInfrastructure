@@ -64,19 +64,16 @@ namespace MessagesServer.Controllers
 
                     switch (jsonObject["Option"].ToString())
                     {
-                        case "POST":
-                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_1"));
+                        case "POST":                            
                             Thread.Sleep(3000);
                             Models.Message messageToSave = JsonConvert.DeserializeObject<Models.Message>(jsonObject["Data"].ToString());
                             _databaseController.SaveMessage(messageToSave);
                             _cacheController.SetValue("select_all", JsonConvert.SerializeObject(_databaseController.GetMessages()));
 
-                            _channel.BasicAck(deliveryTag: data.DeliveryTag, multiple: false);
-                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_2"));
+                            _channel.BasicAck(deliveryTag: data.DeliveryTag, multiple: false);                            
                             break;
                         
-                        case "GET":
-                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_1"));
+                        case "GET":                            
                             Thread.Sleep(3000);
                             List<Models.Message> messages = JsonConvert.DeserializeObject<List<Models.Message>>(_cacheController.GetValueByKey("select_all"));
                             string serializedMessages = JsonConvert.SerializeObject(messages);
@@ -91,8 +88,7 @@ namespace MessagesServer.Controllers
                                 body: Encoding.UTF8.GetBytes(serializedMessages)
                             );
 
-                            _channel.BasicAck(deliveryTag: data.DeliveryTag, multiple: false);
-                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_2"));
+                            _channel.BasicAck(deliveryTag: data.DeliveryTag, multiple: false);                            
                             break;
                             
                         default:
