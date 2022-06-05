@@ -19,7 +19,7 @@ namespace BrokerServer.Controllers
         private readonly IBasicProperties _properties;
         private readonly EventingBasicConsumer _consumer;
         private readonly string _nameToReply;
-        private readonly BlockingCollection<string> _responsesQueue = new BlockingCollection<string>();        
+        //private readonly BlockingCollection<string> _responsesQueue = new BlockingCollection<string>();        
 
         public RabbitProduceController()
         {
@@ -43,7 +43,7 @@ namespace BrokerServer.Controllers
 
                 if (data.BasicProperties.CorrelationId == _properties.CorrelationId)
                 {
-                    _responsesQueue.Add(resultString);
+                    //_responsesQueue.Add(resultString);
                 }
             };
 
@@ -51,6 +51,25 @@ namespace BrokerServer.Controllers
                 consumer: _consumer,
                 queue: _nameToReply,
                 autoAck: true
+            );
+
+            _channel.BasicQos(
+                prefetchSize: 0,
+                prefetchCount: 1,
+                global: false
+            );
+
+            string queueName = _channel.QueueDeclare().QueueName;
+
+            _channel.ExchangeDeclare(
+                exchange: "test",
+                type: "direct"
+            );
+
+            _channel.QueueBind(
+                queue: queueName,
+                exchange: "test",
+                routingKey: QUEUE_NAME
             );
         }
 
@@ -64,7 +83,7 @@ namespace BrokerServer.Controllers
             });
 
             _channel.BasicPublish(
-                exchange: "",
+                exchange: "test",
                 routingKey: QUEUE_NAME,
                 basicProperties: null,
                 body: Encoding.UTF8.GetBytes(serializedCommand)
@@ -73,25 +92,25 @@ namespace BrokerServer.Controllers
             return Created("", null);
         }
 
-        [HttpGet]
-        public IActionResult AddGetQuery()
-        {
-            string serializedCommand = JsonConvert.SerializeObject(new Models.Command()
-            {
-                Option = "GET",
-                Data = ""
-            });  
+        //[HttpGet]
+        //public IActionResult AddGetQuery()
+        //{
+        //    string serializedCommand = JsonConvert.SerializeObject(new Models.Command()
+        //    {
+        //        Option = "GET",
+        //        Data = ""
+        //    });  
 
-            _channel.BasicPublish(
-                exchange: "",
-                routingKey: QUEUE_NAME,
-                basicProperties: _properties,
-                body: Encoding.UTF8.GetBytes(serializedCommand)
-            );          
+        //    _channel.BasicPublish(
+        //        exchange: "",
+        //        routingKey: QUEUE_NAME,
+        //        basicProperties: _properties,
+        //        body: Encoding.UTF8.GetBytes(serializedCommand)
+        //    );          
 
-            List<Models.Message> messages = JsonConvert.DeserializeObject<List<Models.Message>>(_responsesQueue.Take());
+        //    List<Models.Message> messages = JsonConvert.DeserializeObject<List<Models.Message>>(_responsesQueue.Take());
 
-            return Ok(messages);
-        }
+        //    return Ok(messages);
+        //}
     }
 }

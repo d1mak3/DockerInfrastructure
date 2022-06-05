@@ -30,12 +30,17 @@ namespace MessagesServer.Controllers
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.QueueDeclare(
-                queue: QUEUE_NAME,
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null
+            string queueName = _channel.QueueDeclare().QueueName;
+
+            _channel.ExchangeDeclare(
+                exchange: "test",
+                type: "direct"
+            );
+
+            _channel.QueueBind(
+                queue: queueName,
+                exchange: "test",
+                routingKey: QUEUE_NAME
             );
 
             _channel.BasicQos(
@@ -51,7 +56,7 @@ namespace MessagesServer.Controllers
             {
                 var consumer = new EventingBasicConsumer(_channel);
                 consumer.Received += (sender, data) =>
-                {
+                {                    
                     var body = data.Body;
                     string message = Encoding.UTF8.GetString(body.ToArray());
 
@@ -60,14 +65,19 @@ namespace MessagesServer.Controllers
                     switch (jsonObject["Option"].ToString())
                     {
                         case "POST":
+                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_1"));
+                            Thread.Sleep(3000);
                             Models.Message messageToSave = JsonConvert.DeserializeObject<Models.Message>(jsonObject["Data"].ToString());
                             _databaseController.SaveMessage(messageToSave);
                             _cacheController.SetValue("select_all", JsonConvert.SerializeObject(_databaseController.GetMessages()));
 
                             _channel.BasicAck(deliveryTag: data.DeliveryTag, multiple: false);
+                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_2"));
                             break;
                         
                         case "GET":
+                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_1"));
+                            Thread.Sleep(3000);
                             List<Models.Message> messages = JsonConvert.DeserializeObject<List<Models.Message>>(_cacheController.GetValueByKey("select_all"));
                             string serializedMessages = JsonConvert.SerializeObject(messages);
 
@@ -82,6 +92,7 @@ namespace MessagesServer.Controllers
                             );
 
                             _channel.BasicAck(deliveryTag: data.DeliveryTag, multiple: false);
+                            Console.WriteLine(Environment.GetEnvironmentVariable("IDENT_STRING_2"));
                             break;
                             
                         default:
@@ -91,9 +102,12 @@ namespace MessagesServer.Controllers
                     
                 };
 
-                _channel.BasicConsume(queue: QUEUE_NAME,
-                                             autoAck: false,
-                                             consumer: consumer);
+                _channel.BasicConsume(
+                    queue: QUEUE_NAME,
+                    autoAck: false,
+                    consumer: consumer
+                );
+                
             }
         }
     }

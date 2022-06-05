@@ -44,8 +44,8 @@ namespace Client
         {
             for (int i = 0; i < 1000; ++i)
             {
-                await ExecuteGetRequest();
-                //await ExecutePostRequest();
+                //await ExecuteGetRequest();
+                await ExecutePostRequest();
             }
         }
     }

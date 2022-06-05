@@ -7,13 +7,15 @@ services:
       - "database"  
       - "broker_rabbit"    
     ports:
-      - "8081:81"
+      - "8081:80"
     environment:
       DB_CONNECTION_STRING: "Server=host.docker.internal;Port=3306;Database=messenger_database;Uid=root;Pwd=no_piko;"
       RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
+      IDENT_STRING_1: "server#1 in work"
+      IDENT_STRING_2: "server#1 done"
 
   messages_server_2:
     build: ./MessagesServer
@@ -21,13 +23,15 @@ services:
       - "database"  
       - "broker_rabbit"    
     ports:
-      - "8090:82"
+      - "8090:80"
     environment:
       DB_CONNECTION_STRING: "Server=host.docker.internal;Port=3306;Database=messenger_database;Uid=root;Pwd=no_piko;"
       RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
+      IDENT_STRING_1: "server#2 in work"
+      IDENT_STRING_2: "server#2 done"
 
   messages_server_3:
     build: ./MessagesServer
@@ -35,13 +39,15 @@ services:
       - "database"  
       - "broker_rabbit"    
     ports:
-      - "8800:83"
+      - "8800:80"
     environment:
       DB_CONNECTION_STRING: "Server=host.docker.internal;Port=3306;Database=messenger_database;Uid=root;Pwd=no_piko;"
       RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
+      IDENT_STRING_1: "server#3 in work"
+      IDENT_STRING_2: "server#3 done"
 
   messages_server_4:
     build: ./MessagesServer
@@ -49,13 +55,15 @@ services:
       - "database"  
       - "broker_rabbit"    
     ports:
-      - "8900:84"
+      - "8900:80"
     environment:
       DB_CONNECTION_STRING: "Server=host.docker.internal;Port=3306;Database=messenger_database;Uid=root;Pwd=no_piko;"
       RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
+      IDENT_STRING_1: "server#4 in work"
+      IDENT_STRING_2: "server#4 done"
 
   messages_server_5:
     build: ./MessagesServer
@@ -63,13 +71,15 @@ services:
       - "database"  
       - "broker_rabbit"    
     ports:
-      - "8080:85"
+      - "8080:80"
     environment:
       DB_CONNECTION_STRING: "Server=host.docker.internal;Port=3306;Database=messenger_database;Uid=root;Pwd=no_piko;"
       RABBIT_URI: "amqp://guest:guest@host.docker.internal:5672"
       QUEUE_NAME: "messages_queries"
       RETRIES_COUNT: "5"
       REDIS_CONNECTION_STRING: "host.docker.internal:6379"
+      IDENT_STRING_1: "server#5 in work"
+      IDENT_STRING_2: "server#5 done"
 
   broker_server:
     build: ./BrokerServer
